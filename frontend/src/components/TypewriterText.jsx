@@ -1,11 +1,10 @@
+import { useState, useEffect, useRef, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-import "highlight.js/styles/github-dark.css";
 
-// Custom renderers for each Markdown element
+// Import the same markdown component styles from MessageBubble
 const markdownComponents = {
-  // Headings
   h1: ({ children }) => (
     <h1 className="text-lg font-bold text-text-primary mt-4 mb-2 first:mt-0">{children}</h1>
   ),
@@ -15,21 +14,15 @@ const markdownComponents = {
   h3: ({ children }) => (
     <h3 className="text-sm font-semibold text-text-primary mt-2 mb-1 first:mt-0">{children}</h3>
   ),
-
-  // Paragraphs
   p: ({ children }) => (
     <p className="mb-3 last:mb-0 leading-relaxed">{children}</p>
   ),
-
-  // Bold / italic
   strong: ({ children }) => (
     <strong className="font-semibold text-text-primary">{children}</strong>
   ),
   em: ({ children }) => (
     <em className="italic text-text-secondary">{children}</em>
   ),
-
-  // Lists
   ul: ({ children }) => (
     <ul className="mb-3 space-y-1 pl-5 list-disc marker:text-text-muted">{children}</ul>
   ),
@@ -39,15 +32,11 @@ const markdownComponents = {
   li: ({ children }) => (
     <li className="leading-relaxed">{children}</li>
   ),
-
-  // Blockquote
   blockquote: ({ children }) => (
     <blockquote className="border-l-2 border-accent/40 pl-3 my-3 text-text-secondary italic">
       {children}
     </blockquote>
   ),
-
-  // Inline code
   code: ({ inline, className, children, ...props }) => {
     if (inline) {
       return (
@@ -60,15 +49,12 @@ const markdownComponents = {
         </code>
       );
     }
-    // Block code — wrapped by <pre>
     return (
       <code className={className} {...props}>
         {children}
       </code>
     );
   },
-
-  // Code block wrapper
   pre: ({ children }) => (
     <pre
       className="my-3 rounded-md overflow-x-auto text-[0.82em] leading-relaxed
@@ -78,11 +64,7 @@ const markdownComponents = {
       {children}
     </pre>
   ),
-
-  // Horizontal rule
   hr: () => <hr className="my-3 border-border-subtle" />,
-
-  // Links
   a: ({ href, children }) => (
     <a
       href={href}
@@ -93,8 +75,6 @@ const markdownComponents = {
       {children}
     </a>
   ),
-
-  // Tables
   table: ({ children }) => (
     <div className="overflow-x-auto my-3">
       <table className="w-full text-sm border border-border-subtle rounded-md border-collapse">
@@ -115,49 +95,85 @@ const markdownComponents = {
   ),
 };
 
-export default function MessageBubble({ message }) {
-  const isUser = message.role === "user";
+export default function TypewriterText({ fullText, onComplete }) {
+  const [displayLength, setDisplayLength] = useState(0);
+  const rafRef = useRef(null);
+  const lastTimeRef = useRef(0);
+  const completedRef = useRef(false);
+
+  const getDelay = useCallback((charIndex) => {
+    // Start slow, speed up after 30 chars
+    if (charIndex < 10) return 25;
+    if (charIndex < 30) return 15;
+    return 8;
+  }, []);
+
+  useEffect(() => {
+    if (!fullText) return;
+    setDisplayLength(0);
+    completedRef.current = false;
+    lastTimeRef.current = 0;
+
+    const step = (timestamp) => {
+      if (completedRef.current) return;
+
+      if (!lastTimeRef.current) {
+        lastTimeRef.current = timestamp;
+      }
+
+      const elapsed = timestamp - lastTimeRef.current;
+      const currentLen = displayLength; // captured via closure won't work, use functional update
+
+      setDisplayLength((prev) => {
+        if (prev >= fullText.length) {
+          if (!completedRef.current) {
+            completedRef.current = true;
+            onComplete?.();
+          }
+          return prev;
+        }
+
+        const delay = getDelay(prev);
+        if (elapsed >= delay) {
+          lastTimeRef.current = timestamp;
+          // Advance by 1 char, or 2–3 for very fast sections
+          const step = prev >= 30 ? 2 : 1;
+          return Math.min(prev + step, fullText.length);
+        }
+        return prev;
+      });
+
+      if (!completedRef.current) {
+        rafRef.current = requestAnimationFrame(step);
+      }
+    };
+
+    rafRef.current = requestAnimationFrame(step);
+
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, [fullText]);
+
+  // Trigger completion callback when we reach full length
+  useEffect(() => {
+    if (displayLength >= (fullText?.length ?? 0) && fullText && !completedRef.current) {
+      completedRef.current = true;
+      onComplete?.();
+    }
+  }, [displayLength, fullText]);
+
+  const partialText = fullText?.slice(0, displayLength) ?? "";
 
   return (
-    <div
-      className={`flex gap-3 mb-5 animate-fade-up ${
-        isUser ? "flex-row-reverse" : "flex-row"
-      }`}
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      rehypePlugins={[rehypeHighlight]}
+      components={markdownComponents}
     >
-      {/* Square monogram avatar */}
-      <div
-        className={`w-7 h-7 rounded-md flex items-center justify-center text-[11px]
-          font-semibold shrink-0 mt-0.5 border
-          ${isUser
-            ? "bg-elevated border-border-subtle text-text-secondary"
-            : "bg-elevated border-accent/30 text-accent"
-          }`}
-      >
-        {isUser ? "You" : "AI"}
-      </div>
-
-      {/* Message body */}
-      <div
-        className={`max-w-[78%] px-4 py-3 text-sm leading-relaxed rounded-lg border
-          ${isUser
-            ? "bg-accent/[0.08] border-accent/20 text-text-primary rounded-tr-sm"
-            : "bg-elevated border-border-subtle text-text-primary rounded-tl-sm"
-          }`}
-      >
-        {isUser ? (
-          // User messages: plain text
-          <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
-        ) : (
-          // AI messages: full Markdown rendering
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeHighlight]}
-            components={markdownComponents}
-          >
-            {message.content}
-          </ReactMarkdown>
-        )}
-      </div>
-    </div>
+      {partialText}
+    </ReactMarkdown>
   );
 }
