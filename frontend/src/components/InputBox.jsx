@@ -18,9 +18,19 @@ export default function InputBox({
   };
 
   const handleKeyDown = (e) => {
+    // Prevent cross-component interference: Ensure we ONLY react to this exact textarea
+    if (e.target !== e.currentTarget) return;
+
     if (e.key === "Enter" && !e.shiftKey) {
+      // Prevent the default newline insertion
       e.preventDefault();
-      handleSend();
+
+      // Ensure we don't accidentally send if loading or empty
+      const text = input.trim();
+      if (!text || disabled) return;
+
+      onSend(text);
+      setInput("");
     }
   };
 

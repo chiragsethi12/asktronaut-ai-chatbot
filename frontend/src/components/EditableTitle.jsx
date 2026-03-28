@@ -50,9 +50,15 @@ export default function EditableTitle({ chatId, title, onTitleChange, startEditi
   };
 
   const handleKeyDown = (e) => {
+    // Enforce proper event scoping: ONLY run when actively editing
+    if (!editing) return;
+
+    // Prevent cross-component interference
+    if (e.target !== e.currentTarget) return;
+
     if (e.key === "Enter") {
       e.preventDefault();
-      save();
+      save(); // submit message
     } else if (e.key === "Escape") {
       setValue(title);
       exitEdit();

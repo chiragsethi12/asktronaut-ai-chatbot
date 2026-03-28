@@ -2,8 +2,46 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import { Check, Copy } from "lucide-react";
 
 // Import the same markdown component styles from MessageBubble
+const PreBlock = ({ children }) => {
+  const [copied, setCopied] = useState(false);
+  const preRef = useRef(null);
+
+  const handleCopy = () => {
+    if (preRef.current) {
+      const text = preRef.current.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      });
+    }
+  };
+
+  return (
+    <div className="relative group my-3">
+      <pre
+        ref={preRef}
+        className="rounded-md overflow-x-auto text-[0.82em] leading-relaxed
+          border border-border-subtle"
+        style={{ background: "#0d0d0d", padding: "1rem" }}
+      >
+        {children}
+      </pre>
+      <button
+        onClick={handleCopy}
+        className="absolute top-2 right-2 p-1.5 rounded-md bg-white/10 hover:bg-white/20 
+          text-text-muted hover:text-text-primary opacity-0 group-hover:opacity-100 
+          transition-all duration-200"
+        aria-label="Copy code"
+      >
+        {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+      </button>
+    </div>
+  );
+};
+
 const markdownComponents = {
   h1: ({ children }) => (
     <h1 className="text-lg font-bold text-text-primary mt-4 mb-2 first:mt-0">{children}</h1>
@@ -55,15 +93,7 @@ const markdownComponents = {
       </code>
     );
   },
-  pre: ({ children }) => (
-    <pre
-      className="my-3 rounded-md overflow-x-auto text-[0.82em] leading-relaxed
-        border border-border-subtle"
-      style={{ background: "#0d0d0d", padding: "1rem" }}
-    >
-      {children}
-    </pre>
-  ),
+  pre: PreBlock,
   hr: () => <hr className="my-3 border-border-subtle" />,
   a: ({ href, children }) => (
     <a
