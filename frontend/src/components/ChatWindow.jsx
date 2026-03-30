@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Sparkles } from "lucide-react";
 import MessageBubble from "./MessageBubble";
 
 export default function ChatWindow({ messages, loading }) {
@@ -20,14 +21,14 @@ export default function ChatWindow({ messages, loading }) {
           xmlns="http://www.w3.org/2000/svg"
           className="mb-5 opacity-60"
         >
-          <path d="M12 2L14.5 9H9.5L12 2Z" fill="#38bdf8" />
-          <rect x="9" y="8" width="6" height="8" rx="1" fill="#38bdf8" opacity="0.7" />
-          <path d="M9 13L6 17H9V13Z" fill="#38bdf8" opacity="0.5" />
-          <path d="M15 13L18 17H15V13Z" fill="#38bdf8" opacity="0.5" />
-          <circle cx="12" cy="11" r="1.5" fill="#0a0a0a" />
-          <rect x="10.5" y="16" width="3" height="2" rx="0.5" fill="#38bdf8" opacity="0.4" />
+          <path d="M12 2L14.5 9H9.5L12 2Z" fill="#00f0ff" />
+          <rect x="9" y="8" width="6" height="8" rx="1" fill="#00f0ff" opacity="0.7" />
+          <path d="M9 13L6 17H9V13Z" fill="#00f0ff" opacity="0.5" />
+          <path d="M15 13L18 17H15V13Z" fill="#00f0ff" opacity="0.5" />
+          <circle cx="12" cy="11" r="1.5" fill="#0a0a0f" />
+          <rect x="10.5" y="16" width="3" height="2" rx="0.5" fill="#00f0ff" opacity="0.4" />
         </svg>
-        <h2 className="text-[15px] font-semibold text-text-primary mb-2 tracking-tight">
+        <h2 className="text-[1.05rem] font-semibold text-text-primary mb-2 tracking-tight">
           Start a conversation
         </h2>
         <p className="text-text-muted text-sm max-w-xs leading-relaxed">
@@ -38,8 +39,8 @@ export default function ChatWindow({ messages, loading }) {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto">
-      <div className="max-w-3xl mx-auto px-6 py-8 pb-4">
+    <div className="flex-1 overflow-y-auto w-full scroll-smooth">
+      <div className="max-w-4xl mx-auto px-6 py-8 pb-10">
         {messages.map((msg, index) => (
           <MessageBubble
             key={index}
@@ -49,18 +50,18 @@ export default function ChatWindow({ messages, loading }) {
 
         {/* Subtle typing indicator while waiting for response */}
         {loading && (
-          <div className="flex gap-3 mb-5">
-            <div className="w-7 h-7 rounded-md bg-elevated border border-accent/30
-              flex items-center justify-center text-[11px] font-semibold text-accent shrink-0 mt-0.5">
-              AI
+          <div className="flex gap-4 mb-6 animate-fade-up">
+            <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/30 text-primary shadow-glow
+              flex items-center justify-center shrink-0 mt-0.5 transition-all duration-300">
+              <Sparkles className="w-4 h-4" />
             </div>
-            <div className="bg-elevated border border-border-subtle px-4 py-3 rounded-lg rounded-tl-sm
-              flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-text-muted animate-bounce"
+            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl rounded-tl-none shadow-glow px-6 py-3
+              flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-primary/60 animate-bounce shadow-glow"
                 style={{ animationDelay: "0ms" }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-text-muted animate-bounce"
+              <span className="w-2 h-2 rounded-full bg-primary/60 animate-bounce shadow-glow"
                 style={{ animationDelay: "150ms" }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-text-muted animate-bounce"
+              <span className="w-2 h-2 rounded-full bg-primary/60 animate-bounce shadow-glow"
                 style={{ animationDelay: "300ms" }} />
             </div>
           </div>

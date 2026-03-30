@@ -7,21 +7,38 @@ export default {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
       colors: {
-        base: "#0a0a0a",
-        surface: "#111111",
-        elevated: "#1a1a1a",
-        "border-subtle": "#222222",
+        base: "#05070d",
+        surface: "#0f111a",
+        elevated: "#161824",
+        "border-subtle": "rgba(255, 255, 255, 0.1)",
+        primary: {
+          DEFAULT: "#3b82f6", // blue-500
+          dim: "#2563eb",
+          light: "#22d3ee", // cyan-400
+          tint: "rgba(59, 130, 246, 0.08)",
+        },
+        secondary: {
+          DEFAULT: "#8b5cf6", // Violet (keeping just in case, but unused as per prompt constraint)
+          dim: "#7c3aed",
+          muted: "#4c1d95",
+          tint: "rgba(139, 92, 246, 0.08)",
+        },
         accent: {
-          DEFAULT: "#38bdf8",
-          dim: "#0ea5e9",
-          muted: "#0c4a6e",
-          tint: "rgba(56,189,248,0.08)",
+          DEFAULT: "#3b82f6", // map accent to primary
+          dim: "#2563eb",
+          muted: "#1d4ed8",
+          tint: "rgba(59, 130, 246, 0.08)",
         },
         text: {
           primary: "#f4f4f5",
           secondary: "#a1a1aa",
           muted: "#71717a",
         },
+      },
+      boxShadow: {
+        'glow': '0 0 15px rgba(59, 130, 246, 0.3)',
+        'glow-hover': '0 0 25px rgba(59, 130, 246, 0.5)',
+        'glow-focus': '0 0 0 2px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.4)',
       },
       keyframes: {
         twinkle: {

@@ -3,7 +3,7 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
 import { useState, useRef } from "react";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, Sparkles, User } from "lucide-react";
 
 // Custom renderers for each Markdown element
 const PreBlock = ({ children }) => {
@@ -81,7 +81,7 @@ const markdownComponents = {
 
   // Blockquote
   blockquote: ({ children }) => (
-    <blockquote className="border-l-2 border-accent/40 pl-3 my-3 text-text-secondary italic">
+    <blockquote className="border-l-2 border-primary/50 bg-primary/5 pl-4 pr-2 py-1 my-3 text-text-secondary italic rounded-r-md">
       {children}
     </blockquote>
   ),
@@ -91,8 +91,8 @@ const markdownComponents = {
     if (inline) {
       return (
         <code
-          className="px-1.5 py-0.5 rounded text-[0.82em] font-mono
-            bg-white/[0.07] text-accent border border-white/10"
+          className="px-1.5 py-0.5 rounded text-[0.85em] font-mono
+            bg-primary/10 text-primary border border-primary/20"
           {...props}
         >
           {children}
@@ -119,7 +119,7 @@ const markdownComponents = {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-accent underline underline-offset-2 hover:text-accent-dim transition-colors duration-150"
+      className="text-primary underline underline-offset-2 hover:text-primary-dim transition-colors duration-200 shadow-primary/20 drop-shadow-sm"
     >
       {children}
     </a>
@@ -151,28 +151,26 @@ export default function MessageBubble({ message }) {
 
   return (
     <div
-      className={`flex gap-3 mb-5 animate-fade-up ${
+      className={`flex gap-4 mb-6 animate-fade-up ${
         isUser ? "flex-row-reverse" : "flex-row"
       }`}
     >
-      {/* Square monogram avatar */}
+      {/* Avatar */}
       <div
-        className={`w-7 h-7 rounded-md flex items-center justify-center text-[11px]
-          font-semibold shrink-0 mt-0.5 border
+        className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 border transition-shadow duration-300
           ${isUser
             ? "bg-elevated border-border-subtle text-text-secondary"
-            : "bg-elevated border-accent/30 text-accent"
+            : "bg-primary/10 border-primary/30 text-primary shadow-glow"
           }`}
       >
-        {isUser ? "You" : "AI"}
+        {isUser ? <User className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
       </div>
 
-      {/* Message body */}
       <div
-        className={`max-w-[78%] px-4 py-3 text-sm leading-relaxed rounded-lg border
+        className={`max-w-[85%] px-6 py-3 text-[0.95rem] leading-relaxed
           ${isUser
-            ? "bg-accent/[0.08] border-accent/20 text-text-primary rounded-tr-sm"
-            : "bg-elevated border-border-subtle text-text-primary rounded-tl-sm"
+            ? "bg-elevated border border-border-subtle text-text-primary rounded-2xl rounded-tr-none"
+            : "bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl rounded-tl-none text-text-primary shadow-glow"
           }`}
       >
         {isUser ? (
