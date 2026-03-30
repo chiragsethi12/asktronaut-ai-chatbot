@@ -327,7 +327,7 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 
 <div align="center">
 
-Made with ❤️ and ☕ by **[Your Name](https://github.com/your-username)**
+Made with ❤️ and ☕ by **Chirag Sethi(https://github.com/chiragsethi12)**
 
 ⭐ **Star this repo if you found it helpful!** ⭐
 
