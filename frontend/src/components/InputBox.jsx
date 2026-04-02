@@ -81,9 +81,9 @@ export default function InputBox({
     <div className="bg-transparent px-4 pb-6 pt-2 z-20 relative">
       <div className="max-w-4xl mx-auto">
         <div
-          className={`flex items-end bg-white/5 backdrop-blur-xl rounded-[2rem] border shadow-lg
-            transition-all duration-300
-            ${disabled ? "border-white/5 opacity-80" : "border-white/10 hover:border-white/20 focus-within:border-primary/50 focus-within:shadow-glow-focus"}`}
+          className={`flex items-end bg-[#111827] rounded-xl border
+            transition-colors duration-150
+            ${disabled ? "border-white/5 opacity-80" : "border-white/10 focus-within:border-white/20"}`}
         >
           <textarea
             ref={textareaRef}
@@ -103,14 +103,14 @@ export default function InputBox({
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={onTogglePause}
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 hover:shadow-[0_0_12px_rgba(0,240,255,0.3)] transition-all duration-300"
+                  className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/10 text-white transition-colors duration-150"
                   aria-label={isPaused ? "Resume generating" : "Pause generating"}
                 >
                   {isPaused ? <Play className="w-4 h-4 fill-current ml-0.5" /> : <Pause className="w-4 h-4 fill-current" />}
                 </button>
                 <button
                   onClick={onStop}
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 hover:border-white/20 text-text-secondary hover:text-white transition-all duration-300"
+                  className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/10 text-text-secondary hover:text-white transition-colors duration-150"
                   aria-label="Stop generating"
                 >
                   <Square className="w-4 h-4 fill-current" />
@@ -119,7 +119,7 @@ export default function InputBox({
             ) : showRegenerate && !input.trim() ? (
               <button
                 onClick={onRegenerate}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10 hover:border-white/20 text-text-secondary hover:text-white transition-all duration-300"
+                className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/10 text-text-secondary hover:text-white transition-colors duration-150"
                 aria-label="Regenerate response"
               >
                 <RefreshCw className="w-4 h-4" />
@@ -128,10 +128,10 @@ export default function InputBox({
               <button
                 onClick={handleSend}
                 disabled={disabled || !input.trim() || isSending}
-                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300
+                className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-150
                   ${(!input.trim() || disabled)
-                    ? "bg-white/5 text-white/30 cursor-not-allowed"
-                    : "bg-primary text-white hover:bg-primary-dim shadow-glow hover:shadow-glow-hover"
+                    ? "text-white/30 cursor-not-allowed"
+                    : "text-white hover:bg-white/10"
                   }`}
                 aria-label="Send message"
               >

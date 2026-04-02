@@ -51,17 +51,16 @@ export default function ChatWindow({ messages, loading }) {
         {/* Subtle typing indicator while waiting for response */}
         {loading && (
           <div className="flex gap-4 mb-6 animate-fade-up">
-            <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/30 text-primary shadow-glow
-              flex items-center justify-center shrink-0 mt-0.5 transition-all duration-300">
+            <div className="w-8 h-8 rounded-full bg-[#111827] border border-border-subtle text-white
+              flex items-center justify-center shrink-0 mt-0.5 border-none">
               <Sparkles className="w-4 h-4" />
             </div>
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl rounded-tl-none shadow-glow px-6 py-3
-              flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-primary/60 animate-bounce shadow-glow"
+            <div className="bg-[#111827] border border-white/10 rounded-xl px-6 py-4 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-border-strong animate-pulse"
                 style={{ animationDelay: "0ms" }} />
-              <span className="w-2 h-2 rounded-full bg-primary/60 animate-bounce shadow-glow"
+              <span className="w-2 h-2 rounded-full bg-border-strong animate-pulse"
                 style={{ animationDelay: "150ms" }} />
-              <span className="w-2 h-2 rounded-full bg-primary/60 animate-bounce shadow-glow"
+              <span className="w-2 h-2 rounded-full bg-border-strong animate-pulse"
                 style={{ animationDelay: "300ms" }} />
             </div>
           </div>

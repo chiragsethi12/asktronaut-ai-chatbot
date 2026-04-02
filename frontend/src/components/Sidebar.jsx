@@ -19,20 +19,20 @@ function Logo() {
         {/* Rocket body */}
         <path
           d="M12 2L14.5 9H9.5L12 2Z"
-          fill="#38bdf8"
+          fill="#3b82f6"
           opacity="0.9"
         />
         {/* Body */}
-        <rect x="9" y="8" width="6" height="8" rx="1" fill="#38bdf8" opacity="0.7" />
+        <rect x="9" y="8" width="6" height="8" rx="1" fill="#3b82f6" opacity="0.7" />
         {/* Fins */}
-        <path d="M9 13L6 17H9V13Z" fill="#38bdf8" opacity="0.5" />
-        <path d="M15 13L18 17H15V13Z" fill="#38bdf8" opacity="0.5" />
+        <path d="M9 13L6 17H9V13Z" fill="#3b82f6" opacity="0.5" />
+        <path d="M15 13L18 17H15V13Z" fill="#3b82f6" opacity="0.5" />
         {/* Window */}
-        <circle cx="12" cy="11" r="1.5" fill="#0a0a0a" />
+        <circle cx="12" cy="11" r="1.5" fill="#05070d" />
         {/* Exhaust */}
-        <rect x="10.5" y="16" width="3" height="2" rx="0.5" fill="#38bdf8" opacity="0.4" />
+        <rect x="10.5" y="16" width="3" height="2" rx="0.5" fill="#3b82f6" opacity="0.4" />
       </svg>
-      <span className="text-[15px] font-semibold tracking-tight text-text-primary">
+      <span className="text-[15px] font-semibold tracking-tight text-white">
         Asktronaut
       </span>
     </div>
@@ -96,12 +96,11 @@ export default function Sidebar({ activeChatId, onSelectChat, onNewChat }) {
       <div className="px-3 pt-3 pb-1">
         <button
           onClick={handleNewChat}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium
-            text-text-secondary border border-border-subtle
-            hover:border-accent hover:text-text-primary
-            transition-colors duration-150"
+          className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium
+            text-text-secondary border border-border-subtle hover:bg-white/5
+            hover:border-primary/50 hover:text-white transition-colors duration-150"
         >
-          <Plus className="w-3.5 h-3.5 shrink-0" />
+          <Plus className="w-4 h-4 shrink-0" />
           New Chat
         </button>
       </div>
@@ -119,18 +118,18 @@ export default function Sidebar({ activeChatId, onSelectChat, onNewChat }) {
             <div
               key={chat._id}
               onClick={() => onSelectChat(chat._id)}
-              className={`group relative flex items-center gap-2.5 px-3 py-2 rounded-md cursor-pointer text-sm
+              className={`group relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer text-sm
                 transition-colors duration-150 select-none
                 ${isActive
-                  ? "text-text-primary bg-elevated"
-                  : "text-text-muted hover:text-text-secondary hover:bg-elevated/60"
+                  ? "text-white bg-elevated/80 border border-white/5"
+                  : "text-text-muted hover:text-white hover:bg-elevated/50 border border-transparent"
                 }`}
             >
               {/* Active left-bar indicator */}
               {isActive && (
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 bg-accent rounded-full" />
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 bg-primary rounded-full shadow-glow" />
               )}
-              <MessageSquare className="w-3.5 h-3.5 shrink-0 opacity-50" />
+              <MessageSquare className="w-4 h-4 shrink-0 opacity-60" />
               <EditableTitle
                 chatId={chat._id}
                 title={chat.title || "New Chat"}
@@ -139,27 +138,27 @@ export default function Sidebar({ activeChatId, onSelectChat, onNewChat }) {
                 onEditStart={() => setEditingChatId(chat._id)}
                 onEditEnd={() => setEditingChatId(null)}
               />
-              <div className="hidden group-hover:flex items-center gap-0.5 shrink-0">
+              <div className="hidden group-hover:flex items-center gap-1 shrink-0">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     setEditingChatId(chat._id);
                   }}
-                  className="w-5 h-5 flex items-center justify-center rounded
-                    text-text-muted hover:text-text-primary
+                  className="w-6 h-6 flex items-center justify-center rounded-lg
+                    text-text-muted hover:text-white hover:bg-white/10
                     transition-colors duration-150"
                   aria-label="Rename chat"
                 >
-                  <Pencil className="w-3 h-3" />
+                  <Pencil className="w-3.5 h-3.5" />
                 </button>
                 <button
                   onClick={(e) => handleDelete(e, chat._id)}
-                  className="w-5 h-5 flex items-center justify-center rounded
-                    text-text-muted hover:text-red-400
+                  className="w-6 h-6 flex items-center justify-center rounded-lg
+                    text-text-muted hover:text-red-400 hover:bg-red-400/10
                     transition-colors duration-150"
                   aria-label="Delete chat"
                 >
-                  <Trash2 className="w-3 h-3" />
+                  <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
@@ -168,31 +167,28 @@ export default function Sidebar({ activeChatId, onSelectChat, onNewChat }) {
       </div>
 
       {/* User footer */}
-      <div className="px-3 py-3 border-t border-border-subtle">
-        <div className="flex items-center gap-2.5">
+      <div className="px-4 py-4 border-t border-border-subtle bg-surface flex items-center justify-between">
+        <div className="flex items-center gap-3">
           {/* Avatar monogram */}
-          <div className="w-7 h-7 rounded-md bg-elevated border border-border-subtle
-            flex items-center justify-center text-[11px] font-semibold text-accent shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-elevated border border-border-subtle
+            flex items-center justify-center text-xs font-semibold text-primary shrink-0 shadow-sm">
             {user?.name?.[0]?.toUpperCase() ?? "U"}
           </div>
           <div className="flex-1 overflow-hidden">
-            <p className="text-[13px] font-medium text-text-primary truncate leading-tight">
+            <p className="text-sm font-medium text-white truncate leading-tight">
               {user?.name}
             </p>
-            <p className="text-[11px] text-text-muted truncate leading-tight">
-              {user?.email}
-            </p>
           </div>
-          <button
-            onClick={logout}
-            className="w-7 h-7 flex items-center justify-center rounded-md
-              text-text-muted hover:text-red-400 hover:bg-elevated
-              transition-colors duration-150 shrink-0"
-            aria-label="Log out"
-          >
-            <LogOut className="w-3.5 h-3.5" />
-          </button>
         </div>
+        <button
+          onClick={logout}
+          className="w-8 h-8 flex items-center justify-center rounded-xl
+            text-text-muted hover:text-red-400 hover:bg-white/5
+            transition-colors duration-150 shrink-0"
+          aria-label="Log out"
+        >
+          <LogOut className="w-4 h-4" />
+        </button>
       </div>
     </div>
   );

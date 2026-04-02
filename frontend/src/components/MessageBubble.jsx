@@ -157,20 +157,20 @@ export default function MessageBubble({ message }) {
     >
       {/* Avatar */}
       <div
-        className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 border transition-shadow duration-300
+        className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 border-none transition-none
           ${isUser
-            ? "bg-elevated border-border-subtle text-text-secondary"
-            : "bg-primary/10 border-primary/30 text-primary shadow-glow"
+            ? "bg-elevated text-text-secondary"
+            : "bg-[#111827] border border-border-subtle text-white"
           }`}
       >
         {isUser ? <User className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
       </div>
 
       <div
-        className={`max-w-[85%] px-6 py-3 text-[0.95rem] leading-relaxed
+        className={`max-w-[85%] px-6 py-4 text-[0.95rem] leading-relaxed rounded-xl
           ${isUser
-            ? "bg-elevated border border-border-subtle text-text-primary rounded-2xl rounded-tr-none"
-            : "bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl rounded-tl-none text-text-primary shadow-glow"
+            ? "bg-blue-900/30 text-white"
+            : "bg-[#111827] text-white"
           }`}
       >
         {isUser ? (

@@ -1,19 +1,38 @@
 const nodemailer = require("nodemailer");
 
 const sendResetEmail = async (email, resetToken) => {
-  try {
-    const transporter = nodemailer.createTransport({
+  const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+
+  let transporter;
+  let fromAddress;
+
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    // Generate test SMTP service account from ethereal.email
+    const testAccount = await nodemailer.createTestAccount();
+    transporter = nodemailer.createTransport({
+      host: "smtp.ethereal.email",
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: testAccount.user, // generated ethereal user
+        pass: testAccount.pass, // generated ethereal password
+      },
+    });
+    fromAddress = `"Asktronaut Support" <${testAccount.user}>`;
+  } else {
+    transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
     });
+    fromAddress = `"Asktronaut Support" <${process.env.EMAIL_USER}>`;
+  }
 
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
-
+  try {
     const mailOptions = {
-      from: `"Asktronaut Support" <${process.env.EMAIL_USER}>`,
+      from: fromAddress,
       to: email,
       subject: "Password Reset Request",
       html: `
@@ -26,8 +45,17 @@ const sendResetEmail = async (email, resetToken) => {
       `,
     };
 
-    await transporter.sendMail(mailOptions);
+    const info = await transporter.sendMail(mailOptions);
     console.log("Reset email sent successfully to", email);
+
+    // If using ethereal testing, print the link where the user can view the email in their browser
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.log("\n========================================================");
+      console.log("📨 TEST EMAIL INTERCEPTED (NO SMTP CONFIGURED)");
+      console.log("Preview the email in your browser here:");
+      console.log(nodemailer.getTestMessageUrl(info));
+      console.log("========================================================\n");
+    }
   } catch (error) {
     console.error("Email sending failed:", error);
     throw new Error("Could not send the email");

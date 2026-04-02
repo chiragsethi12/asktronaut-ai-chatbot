@@ -73,8 +73,8 @@ export default function EditableTitle({ chatId, title, onTitleChange, startEditi
         onChange={(e) => setValue(e.target.value)}
         onBlur={save}
         onKeyDown={handleKeyDown}
-        className="flex-1 bg-elevated text-text-primary text-sm rounded px-1.5 py-0.5
-          border border-accent outline-none min-w-0
+        className="flex-1 bg-elevated text-white text-sm rounded-xl px-2 py-1
+          border border-primary outline-none min-w-0 shadow-glow-focus
           transition-colors duration-150"
         maxLength={80}
         onClick={(e) => e.stopPropagation()}

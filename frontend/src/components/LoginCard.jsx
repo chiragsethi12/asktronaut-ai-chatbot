@@ -3,29 +3,26 @@ import { Link } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import InputField from "./ui/InputField";
 import Button from "./ui/Button";
-import GlassCard from "./ui/GlassCard";
+import Card from "./ui/Card";
 
 export default function LoginCard({ form, handleChange, handleSubmit, loading, error }) {
   const [showPw, setShowPw] = useState(false);
 
   return (
-    <div className="w-full max-w-md relative z-10 animate-fade-up">
-      {/* Decorative background glow behind the card */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary-dim rounded-[2rem] blur-xl opacity-20 z-0"></div>
-      
-      <GlassCard className="p-8 sm:p-10">
-        <div className="mb-8 text-center relative z-10">
+    <div className="w-full max-w-md animate-fade-up">
+      <Card className="p-8 sm:p-10">
+        <div className="mb-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Welcome Back</h2>
           <p className="text-text-muted text-sm">Sign in to continue your journey.</p>
         </div>
 
         {error && (
-          <div className="mb-6 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm font-medium text-center relative z-10">
+          <div className="mb-6 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm font-medium text-center">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-[13px] font-medium text-text-secondary mb-2">Email Address</label>
             <InputField
@@ -69,14 +66,13 @@ export default function LoginCard({ form, handleChange, handleSubmit, loading, e
           <Button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 py-3.5 bg-primary hover:bg-primary-light text-[#05070d] gap-2 shadow-glow hover:shadow-glow-hover"
+            className="w-full mt-2 py-3.5"
           >
             {loading ? "Authenticating..." : "Sign In"}
-            {!loading && <ArrowRight className="w-4 h-4 text-[#05070d]" />}
           </Button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-white/10 text-center relative z-10">
+        <div className="mt-8 pt-6 border-t border-border-subtle text-center">
           <p className="text-text-muted text-sm">
             Don't have an account?{" "}
             <Link to="/signup" className="text-white font-medium hover:text-primary transition-colors duration-200">
@@ -84,7 +80,7 @@ export default function LoginCard({ form, handleChange, handleSubmit, loading, e
             </Link>
           </p>
         </div>
-      </GlassCard>
+      </Card>
     </div>
   );
 }
