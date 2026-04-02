@@ -7,7 +7,7 @@ export default function InputField({ icon: Icon, endAdornment, className = "", .
         </div>
       )}
       <input
-        className={`w-full bg-[#111827] text-white text-sm rounded-xl py-3 border border-white/10 outline-none transition-colors duration-150 focus:border-primary focus:bg-[#1f2937] placeholder-text-muted/50 ${
+        className={`w-full bg-[#0B0F18] text-white text-sm rounded-xl py-3 border border-white/10 outline-none transition-colors duration-150 focus:border-primary focus:bg-[#1f2937] placeholder-text-muted/50 ${
           Icon ? "pl-12" : "pl-4"
         } ${endAdornment ? "pr-11" : "pr-4"}`}
         {...props}

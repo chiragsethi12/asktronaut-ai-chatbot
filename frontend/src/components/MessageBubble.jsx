@@ -160,7 +160,7 @@ export default function MessageBubble({ message }) {
         className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 border-none transition-none
           ${isUser
             ? "bg-elevated text-text-secondary"
-            : "bg-[#111827] border border-border-subtle text-white"
+            : "bg-[#0B0F18] border border-border-subtle text-white"
           }`}
       >
         {isUser ? <User className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
@@ -170,7 +170,7 @@ export default function MessageBubble({ message }) {
         className={`max-w-[85%] px-6 py-4 text-[0.95rem] leading-relaxed rounded-xl
           ${isUser
             ? "bg-blue-900/30 text-white"
-            : "bg-[#111827] text-white"
+            : "bg-[#0B0F18] text-white"
           }`}
       >
         {isUser ? (

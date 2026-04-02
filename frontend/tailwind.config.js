@@ -7,14 +7,14 @@ export default {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
       colors: {
-        base: "#0b1120",
-        surface: "#111827",
-        elevated: "#1f2937",
+        base: "#060911", // rgb(6, 9, 17)
+        surface: "#0B0F18", // rgb(11, 15, 24)
+        elevated: "#0B0F18",
         "border-subtle": "rgba(255, 255, 255, 0.1)",
         "border-strong": "rgba(255, 255, 255, 0.2)",
         primary: {
-          DEFAULT: "#3b82f6", // pure blue
-          dim: "#2563eb",
+          DEFAULT: "#013892", // rgb(1, 56, 146)
+          dim: "#012b73",
         },
         text: {
           primary: "#ffffff",

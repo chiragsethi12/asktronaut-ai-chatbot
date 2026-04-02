@@ -81,7 +81,7 @@ export default function InputBox({
     <div className="bg-transparent px-4 pb-6 pt-2 z-20 relative">
       <div className="max-w-4xl mx-auto">
         <div
-          className={`flex items-end bg-[#111827] rounded-xl border
+          className={`flex items-end bg-[#0B0F18] rounded-xl border
             transition-colors duration-150
             ${disabled ? "border-white/5 opacity-80" : "border-white/10 focus-within:border-white/20"}`}
         >

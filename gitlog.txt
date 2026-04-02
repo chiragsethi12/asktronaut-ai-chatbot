@@ -1,0 +1,13 @@
+b96945b added the feature of reset link
+03dc111 trigger fresh deploy
+f3ba470 save local changes before pull
+5de3630 ready for deployment
+5d50142 Update author name in README.md
+69dde66 ui uniformity fixes
+719585d feat: implement copy button, emoji usage, and scoped keydown handling
+501d145 Merge branch 'main' of https://github.com/chiragsethi12/asktronaut-ai-chatbot
+841359f Update code for asktronaut chatbots
+8141c02 Update README to remove unnecessary sections
+e7d9adc Create README for Asktronaut AI Chatbot
+12a58ae backend upload
+0f143b9 Initial commit - Asktronaut MERN chatbot
