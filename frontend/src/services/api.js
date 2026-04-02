@@ -1,7 +1,12 @@
 import axios from "axios";
 
+// Base URL from environment
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+// Axios instance
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: `${BASE_URL}/api`,
+  withCredentials: true,
 });
 
 // Attach JWT token to every request automatically
@@ -13,32 +18,48 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-// AUTH
+// ================= AUTH =================
 export const signupAPI = (data) => API.post("/auth/signup", data);
-export const loginAPI = (data) => API.post("/auth/login", data);
-export const forgotPasswordAPI = (email) => API.post("/auth/forgot-password", { email });
-export const resetPasswordAPI = (token, newPassword) => API.post(`/auth/reset-password/${token}`, { newPassword });
 
-// CHAT
+export const loginAPI = (data) => API.post("/auth/login", data);
+
+export const forgotPasswordAPI = (email) =>
+  API.post("/auth/forgot-password", { email });
+
+export const resetPasswordAPI = (token, newPassword) =>
+  API.post(`/auth/reset-password/${token}`, { newPassword });
+
+// ================= CHAT =================
 export const getAllChatsAPI = () => API.get("/chat/all");
+
 export const createChatAPI = () => API.post("/chat/new");
+
 export const getChatByIdAPI = (id) => API.get(`/chat/${id}`);
+
 export const sendMessageAPI = (id, content) =>
   API.post(`/chat/${id}/message`, { content });
 
-export const sendStreamingMessageAPI = (id, content, signal, isRegenerate = false) => {
+export const deleteChatAPI = (id) => API.delete(`/chat/${id}`);
+
+export const renameChatAPI = (id, title) =>
+  API.patch(`/chat/${id}/title`, { title });
+
+// ================= STREAMING =================
+export const sendStreamingMessageAPI = (
+  id,
+  content,
+  signal,
+  isRegenerate = false
+) => {
   const user = JSON.parse(localStorage.getItem("asktronaut_user"));
-  return fetch(`http://localhost:5000/api/chat/${id}/message`, {
+
+  return fetch(`${BASE_URL}/api/chat/${id}/message`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${user?.token || ""}`,
     },
     body: JSON.stringify({ content, isRegenerate }),
-    signal, // AbortSignal
+    signal,
   });
 };
-
-export const deleteChatAPI = (id) => API.delete(`/chat/${id}`);
-export const renameChatAPI = (id, title) =>
-  API.patch(`/chat/${id}/title`, { title });
