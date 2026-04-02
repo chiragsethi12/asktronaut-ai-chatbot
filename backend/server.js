@@ -7,25 +7,35 @@ dotenv.config();
 
 const app = express();
 
-// Connect to DB
+// Connect DB
 connectDB();
 
-// ================= CORS CONFIG =================
+// ================= CORS =================
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "https://asktronaut.netlify.app",
 ];
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  })
-);
+// 🔥 Always respond with CORS headers
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
-// ✅ Handle preflight requests (CRITICAL)
-app.options("*", cors());
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,PATCH,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  // 🔥 Handle preflight instantly
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 // ================= MIDDLEWARE =================
 app.use(express.json());
@@ -34,7 +44,12 @@ app.use(express.json());
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/chat", require("./routes/chatRoutes"));
 
-// ================= HEALTH CHECK =================
+// Debug route
+app.get("/test", (req, res) => {
+  res.json({ message: "Test route working ✅" });
+});
+
+// ================= ROOT =================
 app.get("/", (req, res) => {
   res.json({ message: "Asktronaut API is running 🚀" });
 });
